@@ -15,7 +15,7 @@ def index(request):
 
 class CalendarView(generic.ListView):
     model = Event
-    template_name = 'cal/calendar.html'
+    template_name = 'cal/calendar_vjs.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
