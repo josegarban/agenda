@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "dal_select2",
 
     'cal.apps.CalConfig',
+    'datetimeutc',
 ]
 
 MIDDLEWARE = [

@@ -6,6 +6,9 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 import calendar
 
+from dateutil import tz
+
+import mysite
 from .models import Event
 from .utils import Calendar
 from .forms import EventForm
@@ -58,6 +61,13 @@ def event(request, event_id=None):
 
     form = EventForm(request.POST or None, instance=instance)
     if request.POST and form.is_valid():
-        form.save()
+        event = form.save(commit=False)
+        utcnow = datetime.utcnow().replace(tzinfo=tz.gettz('UTC'))
+
+        event.start_time = event.start_time.replace(tzinfo=tz.gettz(mysite.settings.TIME_ZONE))
+        event.end_time = event.end_time.replace(tzinfo=tz.gettz(mysite.settings.TIME_ZONE))
+        event.created = utcnow
+
+        event.save()
         return HttpResponseRedirect(reverse('cal:calendar'))
     return render(request, 'cal/event.html', {'form': form})
