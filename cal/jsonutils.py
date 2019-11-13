@@ -1,6 +1,6 @@
 import json
 
-def events_to_dict(input_objectlist):
+def map_events(input_objectlist):
     """
     Input: events from query
     """
@@ -8,22 +8,44 @@ def events_to_dict(input_objectlist):
 
     output = {}
 
-    days = []
+    # Get all years in events only once
+    years = list(output.keys())
     for e in dictlist:
-        day_str = str(e['start_time'].day)
-        days.append(day_str)
-        output[day_str] = []
+        y_str = str(e['start_time'].year)
+        if y_str not in years:
+            output[y_str] = {}
 
+    # Get all months with events in their respective years
+    years = list(output.keys())
+    for y in years:
+        months = list(output[y].keys())
+        for e in dictlist:
+            m_str = str(e['start_time'].month - 1) #JS months start at 0
+            if m_str not in months:
+                output[y][m_str] = {}
+
+    # Get all days with events in their respective months and years
+    for y in years:
+        months = list(output[y].keys())
+        for m in months:
+            days = list(output[y][m].keys())
+            for e in dictlist:
+                d_str = str(e['start_time'].day)
+                if d_str not in days:
+                    output[y][m][d_str] = []
+
+    # Append all events within a day
     for e in dictlist:
+        y = str(e['start_time'].year)
+        m = str(e['start_time'].month - 1) #JS months start at 0
+        d = str(e['start_time'].day)
+
         e_dict = {}
         e_dict['displayname'] = e['title']
         e_dict['duration'] = int((e['end_time'] - e['start_time']).total_seconds() * 1000)
         e_dict['at'] = e['start_time'].strftime("%a %b %d %Y %H:%M:%S GMT%z")
-        day_str = str(e['start_time'].day)
 
-        for d in days:
-            if d == day_str:
-                output[day_str].append(e_dict)
+        output[y][m][d].append(e_dict)
 
     # return output
     return json.dumps(output)

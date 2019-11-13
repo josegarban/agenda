@@ -9,7 +9,7 @@ import calendar
 from .models import Event
 from .utils import Calendar
 from .forms import EventForm
-from .jsonutils import events_to_dict
+from .jsonutils import map_events
 
 def index(request):
     return HttpResponse('hello')
@@ -25,7 +25,7 @@ class CalendarView(generic.ListView):
         html_cal = cal.formatmonth(withyear=True)
         context['calendar'] = mark_safe(html_cal) # Make another function like this returning a json that will feed the js
         # context['events'] = [x.to_dict() for x in Event.objects.all()]
-        context['events'] = events_to_dict(Event.objects.all())
+        context['events'] = map_events(Event.objects.all())
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
         return context
