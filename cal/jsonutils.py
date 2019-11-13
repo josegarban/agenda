@@ -17,7 +17,7 @@ def events_to_dict(input_objectlist):
     for e in dictlist:
         e_dict = {}
         e_dict['displayname'] = e['title']
-        e_dict['duration'] = (e['end_time'] - e['start_time']).total_seconds()
+        e_dict['duration'] = int((e['end_time'] - e['start_time']).total_seconds() * 1000)
         e_dict['at'] = e['start_time'].strftime("%a %b %d %Y %H:%M:%S GMT%z")
         day_str = str(e['start_time'].day)
 
