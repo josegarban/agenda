@@ -21,8 +21,9 @@ def map_events(input_objectlist):
         months = list(output[y].keys())
         for e in dictlist:
             m_str = str(e['start_time'].month - 1) #JS months start at 0
-            if m_str not in months:
-                output[y][m_str] = {}
+            if y == str(e['start_time'].year):
+                if m_str not in months:
+                    output[y][m_str] = {}
 
     # Get all days with events in their respective months and years
     for y in years:
@@ -31,8 +32,9 @@ def map_events(input_objectlist):
             days = list(output[y][m].keys())
             for e in dictlist:
                 d_str = str(e['start_time'].day)
-                if d_str not in days:
-                    output[y][m][d_str] = []
+                if y == str(e['start_time'].year) and m == str(e['start_time'].month - 1):
+                    if d_str not in days:
+                        output[y][m][d_str] = []
 
     # Append all events within a day
     for e in dictlist:
