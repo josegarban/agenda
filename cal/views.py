@@ -22,7 +22,7 @@ class CalendarView(generic.ListView):
         d = get_date(self.request.GET.get('month', None))
         cal = Calendar(d.year, d.month)
         html_cal = cal.formatmonth(withyear=True)
-        context['calendar'] = mark_safe(html_cal)
+        context['calendar'] = mark_safe(html_cal) # Make another function like this returning a json that will feed the js
         context['prev_month'] = prev_month(d)
         context['next_month'] = next_month(d)
         return context
