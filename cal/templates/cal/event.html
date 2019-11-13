@@ -10,7 +10,7 @@ Event
   <a class="btn btn-info left" href="{% url 'cal:calendar' %}"> Calendar </a>
 </div>
 
-<div>
+<div id="area">
   {% if form.errors %}
   {% for field in form %}
   {% for error in field.errors %}
@@ -27,11 +27,11 @@ Event
   {% endfor %}
   {% endif %}
 
-  <form method="post">
+  <form method="post" id="myForm">
     {% csrf_token %}
     <table class="form form-table">
       {{ form }}
-      <tr><td colspan="2"><button type="submit" class="btn btn-info right"> Submit </button></td></tr>
+      <tr><td colspan="2"><button type="submit" class="btn btn-info right" id="savebutton"> Submit </button></td></tr>
     </table>
   </form>
 </div>
@@ -48,7 +48,6 @@ crossorigin="anonymous"></script>
 
 
 <script type="text/javascript">
-  console.log("Test");
   $(function () {
     $("#id_start_time").datetimepicker({
       format:'Y-m-d H:i',
@@ -59,5 +58,22 @@ crossorigin="anonymous"></script>
       format:'Y-m-d H:i',
     });
   });
+
+  function getDates() {
+    var start = document.getElementById('id_start_time').value
+    var end = document.getElementById('id_end_time').value
+    var offset = new Date().getTimezoneOffset(); // No need to add offset
+
+    start2 = new Date (new Date(start).getTime())
+    end2 = new Date (new Date(end).getTime())
+
+    start3 = start2.toISOString().substr(0, 10) + " " + start2.toISOString().substr(11, 5);
+    end3 = end2.toISOString().substr(0, 10) + " " + end2.toISOString().substr(11, 5);
+
+    document.getElementById('id_start_time').value = start3
+    document.getElementById('id_end_time').value = end3
+  }
+  document.getElementById("myForm").addEventListener("submit", getDates);
 </script>
 {% endblock %}
+k %}
