@@ -46,6 +46,7 @@ def map_events(input_objectlist):
         e_dict['displayname'] = e['title']
         e_dict['duration'] = int((e['end_time'] - e['start_time']).total_seconds() * 1000)
         e_dict['at'] = e['start_time'].strftime("%a %b %d %Y %H:%M:%S GMT%z")
+        e_dict['id'] = e['id']
 
         output[y][m][d].append(e_dict)
 

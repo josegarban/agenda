@@ -59,6 +59,7 @@ var JSCalendarEvent = function () {
             this.displayname = data.displayname;
             this.color = data.color;
             this.html = data.html;
+            this.id = data.id; // ADDED
         }
     }, {
         key: "formatDuration",
@@ -123,6 +124,7 @@ var JSCalendarEvent = function () {
             }
 
             monthElem.style.background = this.color || this.options.eventBackground;
+            monthElem.id = this.id; //added
 
             // Week element
             if (this.displayname) {
@@ -137,6 +139,7 @@ var JSCalendarEvent = function () {
             }
 
             weekElem.style.background = this.color || this.options.eventBackground;
+            weekElem.id = this.id; //added
 
             !this.at && weekElem.classList.add("no-starting-time");
             !this.duration && weekElem.classList.add("no-duration");
@@ -173,6 +176,7 @@ var JSCalendarEvent = function () {
 
             dayElem.style.background = this.color || this.options.eventBackground;
             dayElem.style.height = this.gapcount * this.options.dayviewGapHeight - 2 + "px";
+            dayElem.id = this.id; //added
 
             if (this.at) {
                 this.daytop = this.gapcell * this.options.dayviewGapHeight;
