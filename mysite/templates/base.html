@@ -63,6 +63,8 @@
               {# Calendar #}
               <li class="nav-item"><a href="{% url 'calendar:calendar' %}" class="nav-link">Calendar</a></li>
 
+              {# Uploads #}
+              <li class="nav-item"><a href="{% url 'uploads:user_upload_table' %}" class="nav-link">Uploads</a></li>
 
             {% else %}
               <li class="nav-item"><a href="{% url 'login' %}" class="nav-link">Log In</a></li>

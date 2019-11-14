@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <div class="column is-2">
+  </div>
+  <div class="column is-4">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>{% trans 'Upload a file'%}</h4>
+        </div>
+        <div class="panel-block">
+          <form method="post" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            {% for field in form %}
+              <label>{{field.label_tag}}</label>
+              <p>{{ field }} <small>{{field.help_text}}</small></p>
+            {% endfor %}
+            {{ form.media }}
+            <br>
+            <button type="submit" class="button is-primary">{% trans 'Upload'%}</button>
+          </form>
+          <br>
+        </div>
+        <div class="panel-block">
+          <p><a href="/uploads/">{% trans 'Back to uploads list'%}</a></p>
+        </div>
+      </div>
+    </div>
+  <div class="column is-6">
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript" src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/select2.full.min.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'css/select2.min.css' %}">
+{{ form.media }}
+{% endblock %}

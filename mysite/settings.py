@@ -49,6 +49,8 @@ INSTALLED_APPS = [
 
     'cal.apps.CalConfig',
     'datetimeutc',
+
+    'uploads',
 ]
 
 MIDDLEWARE = [
@@ -73,7 +75,11 @@ SESSION_SECURITY_EXPIRE_AFTER = 12
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ["mysite/templates"],
+        'DIRS': [
+            'mysite/templates',
+            'cal/templates',
+            'uploads/templates',
+            ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -145,6 +151,7 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [\
                     os.path.join(BASE_DIR, "cal", "static"),
                     os.path.join(BASE_DIR, "mysite", "static"),
+                    os.path.join(BASE_DIR, "uploads", "static"),
                     ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
