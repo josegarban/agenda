@@ -100,9 +100,10 @@ var JSCalendarEvent = function () {
     }, {
         key: "buildElements",
         value: function buildElements() {
-            this.monthElem = _a('div', 'cell-event-mark');
-            this.weekElem = _a("div", "cal-week-day-event-col");
-            this.dayElem = _a("div", "cal-total-day-event-view");
+            this.monthElem = _a('a', 'cell-event-mark'); // Changed from div to a
+
+            this.weekElem = _a("div", "cal-week-day-event-col"); // Changed from div to a
+            this.dayElem = _a("a", "cal-total-day-event-view"); // Changed from div to a
         }
     }, {
         key: "updateElements",
@@ -125,6 +126,7 @@ var JSCalendarEvent = function () {
 
             monthElem.style.background = this.color || this.options.eventBackground;
             monthElem.id = this.id; //added
+            monthElem.href = "/calendar/event/edit/"+this.id+"/"; //added
 
             // Week element
             if (this.displayname) {
@@ -139,7 +141,9 @@ var JSCalendarEvent = function () {
             }
 
             weekElem.style.background = this.color || this.options.eventBackground;
+            weekElem.style.width = 100; //added
             weekElem.id = this.id; //added
+            weekElem.href = "/calendar/event/edit/"+this.id+"/"; //added
 
             !this.at && weekElem.classList.add("no-starting-time");
             !this.duration && weekElem.classList.add("no-duration");
@@ -152,7 +156,8 @@ var JSCalendarEvent = function () {
                     outputString += " - " + this.formatTime(end);
                 }
 
-                var timefloat = weekElem.querySelector(".cal-week-day-time-float") || _a('span', 'cal-week-day-time-float', weekElem);
+                var timefloat = weekElem.querySelector(".cal-week-day-time-float") || _a('a', 'cal-week-day-time-float', weekElem);
+                timefloat.href = "/calendar/event/edit/"+this.id+"/"; //added
                 timefloat.textContent = outputString;
             }
 
@@ -177,6 +182,7 @@ var JSCalendarEvent = function () {
             dayElem.style.background = this.color || this.options.eventBackground;
             dayElem.style.height = this.gapcount * this.options.dayviewGapHeight - 2 + "px";
             dayElem.id = this.id; //added
+            dayElem.href = "/calendar/event/edit/"+this.id+"/"; //added
 
             if (this.at) {
                 this.daytop = this.gapcell * this.options.dayviewGapHeight;
