@@ -20,11 +20,22 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from django.views.generic import TemplateView
 
+from django.contrib.sitemaps.views import sitemap
+from notes.sitemaps import PostSitemap
+from django.conf.urls.i18n import i18n_patterns
+sitemaps = {'posts': PostSitemap,}
+
 urlpatterns = (
     [
         path("login", auth_views.LoginView.as_view(), name="login"),
         path("logout", auth_views.LogoutView.as_view(), name="logout"),
 
+        path('notes/comments/', include('django_comments.urls')),
+        path('notes/', include('notes.urls', namespace = 'notes')),
+        path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+        path('ckeditor/', include('ckeditor_uploader.urls')),
+        path('search/', include('haystack.urls')),
+        
         path('uploads/', include('uploads.urls', namespace = 'uploads')),
         path("todo/", include("todo.urls", namespace="todo")),
         path('calendar/', include('cal.urls', namespace="calendar")),

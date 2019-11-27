@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load threadedcomments_tags %}
+{% load comments %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Preview your comment" %}{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  {% load comments %}
+  <form action="/notes/comments/post/" method="post">
+    {% csrf_token %}
+
+    {% if next %}
+      <div><input type="hidden" name="next" value="{{ next }}"/></div>{% endif %}
+
+    {% if form.errors %}
+      <h3 class="title is 3">{% blocktrans count counter=form.errors|length %}Please correct the error below{% plural %}Please correct the errors below{% endblocktrans %}</h3>
+
+    {% else %}
+      <h3 class="title is 3">{% trans "Preview your comment" %}</h3>
+      <blockquote>{{ comment|linebreaks }}</blockquote>
+      <p>
+        {% trans "and" %} <input id="submit" type="submit" name="submit" class="submit-post"
+                                 value="{% trans "Post your comment" %}"/>
+        {# Translators: This string follows the 'Post your comment' submit button. #}
+        {% trans "or make changes" %}:
+      </p>
+    {% endif %}
+
+    {% for field in form %}
+      {% ifequal field.name "name" %}
+        {% if field.errors %}{{ field.errors }}{% endif %}
+          <p
+                  {% if field.errors %} class="error"{% endif %}
+                  {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+            {{ field.label_tag }}<br>{{ field }}
+          </p>
+      {% endifequal %}
+
+      {% ifequal field.name "email" %}
+        {% if field.errors %}{{ field.errors }}{% endif %}
+          <p
+                  {% if field.errors %} class="error"{% endif %}
+                  {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+            {{ field.label_tag }}<br>{{ field }}
+          </p>
+      {% endifequal %}
+
+      {% ifequal field.name "title" %}
+        {% if field.errors %}{{ field.errors }}{% endif %}
+          <p
+                  {% if field.errors %} class="error"{% endif %}
+                  {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+            {{ field.label_tag }}<br>{{ field }}
+          </p>
+      {% endifequal %}
+
+      {% ifequal field.name "comment" %}
+        {% if field.errors %}{{ field.errors }}{% endif %}
+          <p
+                  {% if field.errors %} class="error"{% endif %}
+                  {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+            {{ field.label_tag }}<br>{{ field }}
+          </p>
+      {% endifequal %}
+
+      {% if field.is_hidden %}
+        <p
+                {% if field.errors %} class="error"{% endif %}
+                {% ifequal field.name "honeypot" %} style="display:none;"{% endifequal %}>
+        </p>
+        {% if field.errors %}
+          <br>
+          <p>
+            {% trans 'Error in'%} {{ field.name }}:
+            {% trans 'Value'%}: {{ field.value }}
+            {{ field.errors }}
+          </p>
+          <br>
+        {% endif %}
+      {% endif %}
+
+    {% endfor %}
+
+    <div class="level">
+      <div class="level-left">
+        <p><input type="submit" class="button is-primary" value="Submit Comment"/></p>
+      </div>
+      <div class="level-right">
+        <p><a href="#c0" id="cancel_reply"><small>{% trans 'Cancel reply'%}</small></a></p>
+      </div>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

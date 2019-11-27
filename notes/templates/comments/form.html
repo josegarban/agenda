@@ -1,0 +1,98 @@
+{% load threadedcomments_tags %}
+{% load i18n %}
+
+<div id="form-comment" class="container columns">
+    <div class="column is-3">
+      <form
+        action="
+        {% if post %}/notes/comments/post/{% endif %}
+        {% if task %}/tasks/comments/post/{% endif %}
+        {% if document %}/documents/comments/post/{% endif %}
+        "
+        method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          {% ifequal field.name "name" %}
+            <p>{% trans 'Name'%}</p>
+            <p>{{ field }}</p>
+          {% endifequal %}
+          {% ifequal field.name "email" %}
+            <p>{% trans 'Email address'%}</p>
+            <p>{{ field }}</p>
+          {% endifequal %}
+          {% ifequal field.name "title" %}
+            <p>{% trans 'Title'%}</p>
+            <p>{{ field }}</p>
+          {% endifequal %}
+          {% ifequal field.name "comment" %}
+            <p>{% trans 'Comment'%}</p>
+            <p>{{ field }}</p>
+          {% endifequal %}
+          {% ifequal field.name "object_pk" %}
+            {{field}}
+          {% endifequal %}
+          {% ifequal field.name "timestamp" %}
+            {{field}}
+          {% endifequal %}
+          {% ifequal field.name "security_hash" %}
+            {{field}}
+          {% endifequal %}
+        {% endfor %}
+        <input type="hidden" name="parent" id="id_parent" value="">
+        <input type="hidden" name="url" id="url" value="">
+        <input
+          type="hidden"
+          name="content_type"
+          value="{% if post %}notes.post{% endif %}{% if task %}tasks.task{% endif %}{% if documents %}documents.document{% endif %}"
+          id="id_content_type">
+
+        <br>
+        <div class="level">
+          <div class="level-left">
+            <p><input type="submit" class="button is-primary" value="{% trans "Submit Comment" %}"/></p>
+          </div>
+          <div class="level-right">
+            <p onclick="cancelReply()"><a href="#c0" id="cancel_reply"><small>{% trans "Cancel reply" %}</small></a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+  function goToEnd(){
+      var scrollToBottom = function() {
+        window.scroll({
+          top: document.body.scrollHeight,
+          left: 0,
+          behavior: 'smooth'
+        });
+      };
+      var delay = 200;
+      var scrollInterval = setInterval(scrollToBottom, delay);
+    }
+
+  function goToForm(){
+      var elmnt = document.getElementById("form-comment");
+      elmnt.scrollIntoView();
+    }
+
+  function addParentIdToForm(){
+      var loc = location.href;
+      var vars = loc.split("#c");
+
+      if (vars.length == 2){
+        if (vars[1] == 0){
+            document.getElementById("id_parent").setAttribute("value", "");
+        }
+        if (vars[1] != 0){
+          document.getElementById("id_parent").setAttribute("value", vars[1]);
+          console.log("parent", vars[1]);
+          goToForm();
+        }
+      }
+    }
+  window.addEventListener("mouseover", addParentIdToForm);
+
+</script>

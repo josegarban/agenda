@@ -1,0 +1,62 @@
+{% load threadedcomments_tags %}
+{% load i18n %}
+<div class="comments_length">
+    <p class="title is-5">{{ comment_list|length }} Comments</p>
+    <br>
+</div>
+
+<div class="comments">
+    {% for comment in comment_list|fill_tree|annotate_tree %}
+      {% if comment.parent %}
+      {% else %}
+        {% if comment.open %}
+            <ul>
+        {% else %}
+            </li>
+        {% endif %}
+        <li class="comment_li" id="c{{ comment.id }}">{# c## is used by the absolute URL of the Comment model, so keep that as it is. #}
+            <div class="comment box">
+                <div class="comment_info">
+                    <div class="comment_title"><strong>{{comment.id}}: {{comment.title}}</strong></div>
+                    <div class="comment_data">
+                        <small>{{ comment.submit_date|date:"d M Y, H:i" }}</small> <small>by {{ comment.user_name }}</small>
+                        <small>| <a href="#c{{ comment.id }}" data-comment-id="{{ comment.id }}" class="comment_reply_link">{%trans 'Reply'%}</a></small>
+                    </div>
+                </div>
+                <div class="comment_text">
+                    {{ comment.comment }}
+                </div>
+
+                {% for komment in comment_list %}
+                  {% if komment.parent.id == comment.id %}
+                    <br>
+                    {% if komment.open %}
+                        <ul>
+                    {% else %}
+                        </li>
+                    {% endif %}
+                    <li class="comment_li" id="c{{ comment.id }}">{# c## is used by the absolute URL of the Comment model, so keep that as it is. #}
+                        <div class="comment box">
+                            <div class="comment_info">
+                                <div class="comment_title"><strong>{{komment.id}}: {{komment.title}}</strong></div>
+                                <div class="comment_data">
+                                    <small>{{ komment.submit_date|date:"d M Y, H:i" }}</small> <small>by {{ komment.user_name }}</small>
+                                </div>
+                            </div>
+                            <div class="comment_text">
+                                {{ komment.comment }}
+                            </div>
+                        </div>
+                        {% for close in komment.close %}</li></ul>{% endfor %}
+
+                  {% endif %}
+                {% endfor %}
+
+
+            {% for close in comment.close %}</li></ul>{% endfor %}
+
+      {% endif %}
+      <br>
+
+    {% endfor %}
+</div>

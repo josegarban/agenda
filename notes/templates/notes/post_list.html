@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load blog_tags %}
+{% load i18n %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  <section class="section">
+
+    <div class="columns">
+
+      <div class="column is-9">
+        <div class="columns">
+
+          <div class="column is-2">
+          </div>
+          <div class="column is-10">
+            {% if tag %}
+            <h3 class="title is-3">{% trans "Posts tagged with"%} "{{ tag }}"</h3>
+            {% else %}
+            <br>
+            {% endif %}
+            <a  href="{% url 'notes:post_new' %}?project__id__exact={{id}}">
+              <span class="icon is-small"><i class="fas fa-plus" aria-hidden="true"></i></span>
+              {% trans "New post"%}</a>
+            </div>
+
+        </div>
+      </div>
+
+    </div>
+    <br>
+    <div class="columns">
+
+      <div class="column is-9">
+        {% for post in posts %}
+        <article class="post columns">
+
+          <div class="column is-2 ">
+            <div class="has-text-right" style="padding:0.35rem 0 0 0;">
+              <!-- {% comment %}{% load tz %}{% timezone user.profile.timezone %}{{ post.published_date }}{% endtimezone %}{% endcomment %} -->
+            </div>
+          </div>
+
+          <div class="column is-10">
+            <h4 class="title is-4"><a href="{{ post.get_absolute_url }}" class="post-list-post-title" "post-title">
+              {{ post.title }}</a>
+            </h4>
+            <p class="tags">{% trans 'Tags'%}:&nbsp;
+              {% for tag in post.tags.all %}
+              <a href="{% url 'notes:post_list_by_tag' tag.slug %}">
+                {{ tag.name }}
+              </a>
+              {% if not forloop.last %},&nbsp;{% endif %}
+              {% endfor %}
+            </p>
+            <!-- <p>{{ post.text|truncatewords:20|safe }}</p> -->
+            <br>
+          </div>
+
+        </article>
+        {% endfor %}
+      </div>
+
+      <div class="column is-3">
+        <h4 class="title is-4">{% trans "Search"%}</h4>
+        <form>
+          <input
+          class="input"
+          style="width:25rem;"
+          type="search"
+          placeholder="Search"
+          aria-label="{% trans "Search"%}"
+          name = "search"
+          value ="{{search_term}}">
+          <br>
+          <br>
+          <button class="button is-primary" type="submit">{% trans "Search"%}</button>
+        </form>
+      </div>
+
+    </div>
+    <br>
+    <div class="columns">
+
+      <div class="column is-9">
+        <div class="columns">
+
+          <div class="column is-2">
+          </div>
+          <div class="column is-10">
+            {% include "notes/pagination.html" with page=posts %}
+            </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </section>
+
+{% else %}
+  <section class="section">
+    <div class="container">
+      <div class="level">
+        <p class="level-item has-text-centered">
+          <a href="/admin/">{% trans "Login"%}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+{% endif %}
+
+{% endblock %}

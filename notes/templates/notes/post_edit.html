@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+  <div class="level">
+    <div class="columns">
+      <div class="column is-1">
+      </div>
+      <div class="column is-11">
+        <h2 class="title is-2">{{viewname}}</h2>
+        <form method="POST" class="post-form">{% csrf_token %}
+          {{ form.media }}
+          {% for field in form %}
+            <br><br>
+            {{ field.name|capfirst }}<br>
+            {{ field }}
+          {% endfor %}
+          {% trans 'Tags must be separated by commas'%}
+          <br>
+          <br>
+          <button type="submit" class="button is-primary">{% trans "Save"%}</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

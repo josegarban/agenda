@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+<!-- {% comment %}{% load threadedcomments_tags %}{% endcomment %} -->
+{% block content %}
+{% load i18n %}
+
+<section class="section">
+  <br>
+  {% if user.is_authenticated %}
+
+  <div class="columns">
+
+    <div class="column is-9">
+      <div class="columns">
+
+        <div class="column is-2">
+          <div class="has-text-right" style="padding:1.25rem 1rem 0 0;">
+            <!-- {% comment %}{% load tz %}{% timezone user.profile.timezone %}{{ post.published_date }}{% endtimezone %}{% endcomment %} -->
+          </div>
+        </div>
+
+        <div class="column is-10">
+          <article>
+            <h2 class="title is-2">{{ post.title }}</h2>
+            <a href="{{ post.get_absolute_url }}edit/">
+              <span class="icon is-small"><i class="fas fa-edit" aria-hidden="true"></i></span>
+              {% trans 'Edit note'%}
+            </a>
+            <p>{% trans 'Tags'%}:
+              {% for tag in post.tags.all %}
+                <a href="{% url 'notes:post_list_by_tag' tag.slug %}">
+                  {{ tag.name }}
+                </a>
+                {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+            <hr>
+            <p>{{ post.text|safe }}</p>
+            <hr>
+            <!-- <p><a href="{% url "notes:post_share" post.id %}">Share this post via e-mail</a></p> -->
+          </div>
+          </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="columns">
+  <div class="column is-9">
+    <div class="columns">
+      <div class="column is-2">
+      </div>
+      <div class="column is-10">
+          <!-- {% comment %}{% render_comment_form for post %}{% endcomment %} -->
+        <hr>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="columns">
+  <div class="column is-9">
+    <div class="columns">
+      <div class="column is-2">
+      </div>
+      <div class="column is-10">
+          <!-- {% comment %}<h5 class=title is-5>{% trans "Post a comment"%}</h5>
+          {% render_comment_form for post %}{% endcomment %} -->
+      </div>
+    </div>
+  </div>
+</section>
+
+{% else %}
+{% trans 'This post does not exist.'}
+{% endif %}
+
+{% endblock %}

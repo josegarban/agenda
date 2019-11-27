@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 from django.contrib.messages import constants as message_constants
+from credentials import readcredentials
+my_credentials = readcredentials.readcredentials()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -47,6 +49,18 @@ INSTALLED_APPS = [
     "dal",
     "dal_select2",
 
+    # threaded comments
+    'threadedcomments',
+    'django_comments',
+    # notes
+    'notes',
+    'taggit',
+    'ckeditor',
+    'ckeditor_uploader',
+    'haystack',
+    # timezones
+    'timezone_field',
+    
     'cal.apps.CalConfig',
     'datetimeutc',
 
@@ -54,6 +68,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'notes.middleware.TimezoneMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -79,6 +94,7 @@ TEMPLATES = [
             'mysite/templates',
             'cal/templates',
             'uploads/templates',
+            'notes/templates',
             ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -152,6 +168,7 @@ STATICFILES_DIRS = [\
                     os.path.join(BASE_DIR, "cal", "static"),
                     os.path.join(BASE_DIR, "mysite", "static"),
                     os.path.join(BASE_DIR, "uploads", "static"),
+                    os.path.join(BASE_DIR, "notes", "static"),
                     ]
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
@@ -172,3 +189,32 @@ MESSAGE_TAGS = {message_constants.ERROR: "danger"}
 # TODO_PUBLIC_SUBMIT_REDIRECT = '/'
 # TODO_ALLOW_FILE_ATTACHMENTS = True
 # TODO_LIMIT_FILE_ATTACHMENTS = [".jpg", ".gif", ".png", ".csv", ".pdf"]
+
+# Notes ckeditor
+CKEDITOR_UPLOAD_PATH = ''
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = my_credentials[0]
+EMAIL_HOST_USER = my_credentials[1]
+EMAIL_HOST_PASSWORD = my_credentials[2]
+EMAIL_PORT = int(my_credentials[3])
+EMAIL_USE_TLS = True
+DISQUS_API_KEY = my_credentials[4]
+DISQUS_WEBSITE_SHORTNAME = my_credentials[5]
+
+# Search settings
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(os.path.dirname(__file__), 'whoosh_index'),
+    },
+}
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+# Taggit
+TAGGIT_TAGS_FROM_STRING = 'notes.utils.comma_splitter'
+TAGGIT_STRING_FROM_TAGS = 'notes.utils.comma_joiner'
