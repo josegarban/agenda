@@ -11,6 +11,8 @@ from .forms import EmailPostForm, PostForm
 from .models import Post
 from credentials import readcredentials
 
+from todo.models import Task
+
 from haystack.query import SearchQuerySet
 
 def post_list(request, tag_slug=None):

@@ -18,13 +18,14 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('title', 'text', 'status', 'tags')
+        fields = ('title', 'text', 'status', 'tasks', 'tags')
         exclude = ('published_date', 'created_date')
         labels = {
             'title': _('title'),
             'text': _('text'),
             'status': _('status'),
             'tags': _('tags'),
+            'tasks': _('tasks'),
         }
 
 

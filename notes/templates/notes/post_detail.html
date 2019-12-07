@@ -37,6 +37,10 @@
             <hr>
             <p>{{ post.text|safe }}</p>
             <hr>
+            <p>Tasks:</p>
+              {% for t in post.tasks.all %}
+                <p><a href="/tasks/{{t.slug}}">{{ t }}</a></p>
+              {% endfor %}
             <!-- <p><a href="{% url "notes:post_share" post.id %}">Share this post via e-mail</a></p> -->
           </div>
           </article>

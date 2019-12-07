@@ -11,6 +11,8 @@ from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from taggit.managers import TaggableManager
 
+from todo.models import Task
+
 class PublishedManager(models.Manager):
     def get_queryset(self):
         return super(PublishedManager,self).get_queryset()\
@@ -30,6 +32,8 @@ class Post(models.Model):
                             verbose_name=_('slug')
                             )
     tags = TaggableManager()
+    tasks = models.ManyToManyField( "todo.Task", related_name="tasks", null=True,
+                                    blank=True,  verbose_name="Task")
 
     objects = models.Manager()
     publishedobjects = PublishedManager()
