@@ -62,7 +62,7 @@ INSTALLED_APPS = [
     'timezone_field',
     
     'cal.apps.CalConfig',
-    'datetimeutc',
+    #'datetimeutc',
 
     'uploads',
 ]
