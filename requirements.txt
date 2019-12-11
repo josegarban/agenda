@@ -16,3 +16,4 @@ django-autocomplete-light==3.4.1
 
 django-contrib-comments==1.9.1 
 django-threadedcomments==1.2
+django-datetime-utc==1.0.2
