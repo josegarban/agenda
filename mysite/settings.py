@@ -28,7 +28,7 @@ SECRET_KEY = '$*k21&m0ud6#325+76lvkb2(3my$23j0-ue#+#71t3f^m&z2v-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['jgarban.pythonanywhere.com']
 
 
 # Application definition
@@ -60,7 +60,7 @@ INSTALLED_APPS = [
     'haystack',
     # timezones
     'timezone_field',
-    
+
     'cal.apps.CalConfig',
     'datetimeutc',
 
@@ -87,15 +87,18 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_SECURITY_WARN_AFTER = 5
 SESSION_SECURITY_EXPIRE_AFTER = 12
 
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
+MY_TEMPLATES_DIRS = [
             'mysite/templates',
             'cal/templates',
             'uploads/templates',
             'notes/templates',
-            ],
+            ]
+MY_TEMPLATES = [os.path.join(BASE_DIR, x) for x in MY_TEMPLATES_DIRS]
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': MY_TEMPLATES,
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -218,3 +221,7 @@ HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
 # Taggit
 TAGGIT_TAGS_FROM_STRING = 'notes.utils.comma_splitter'
 TAGGIT_STRING_FROM_TAGS = 'notes.utils.comma_joiner'
+
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
