@@ -20,4 +20,4 @@ El sistema colaborativo diseñado tiene las siguientes funcionalidades:
 3. Un módulo de notas con comentarios, de elaboración propia. 
 4. Un módulo de archivos compartidos, de elaboración propia.
 
-Se elaboró un prototipo en Justinmind, disponible en https://github.com/josegarban/agenda y uno funcional, que con el que se puede interactuar en la dirección http://jgarban.pythonanywhere.com/. Usuario: admin, Contraseña: admin. 
+Se elaboró un prototipo en Justinmind, disponible en https://github.com/josegarban/agenda (ver Prototype1.vp) y uno funcional, que con el que se puede interactuar en la dirección http://jgarban.pythonanywhere.com/. Usuario: admin, Contraseña: admin. 
