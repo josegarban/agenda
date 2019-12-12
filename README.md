@@ -1,10 +1,15 @@
 # agenda
 
 Universidad de Granada
+
 Máster Universitario en Gestión y Tecnologías de Procesos de Negocio
+
 Sistemas Colaborativos y Flujos de Trabajo
+
 Prof. María Luisa Rodríguez / Prof. María Visitación Hurtado
+
 12/12/2019
+
 Nombre: José Garbán
 
 ## Prototipo de sistema colaborativo
