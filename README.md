@@ -8,9 +8,7 @@ Sistemas Colaborativos y Flujos de Trabajo
 
 Prof. María Luisa Rodríguez / Prof. María Visitación Hurtado
 
-12/12/2019
-
-Nombre: José Garbán
+Curso 2019-2020
 
 ## Prototipo de sistema colaborativo
 
